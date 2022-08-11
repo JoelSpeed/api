@@ -47,3 +47,5 @@ github.com/openshift/api/security/v1,\
 github.com/openshift/api/template/v1,\
 github.com/openshift/api/user/v1\
 "
+
+YQ="go run ${PACKAGE_NAME}/tools/vendor/github.com/mikefarah/yq/v4"
