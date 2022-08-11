@@ -4,5 +4,7 @@
 package tools
 
 import (
+	_ "github.com/vmware-archive/yaml-patch/cmd/yaml-patch"
 	_ "k8s.io/code-generator"
+	_ "sigs.k8s.io/controller-tools/cmd/controller-gen"
 )
