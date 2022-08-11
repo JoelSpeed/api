@@ -10,6 +10,7 @@ set -o nounset
 set -o pipefail
 
 SCRIPT_ROOT=$(cd $(dirname "${BASH_SOURCE[0]}")/../.. && pwd)
+PACKAGE_NAME="github.com/openshift/api"
 
 # find_api_group_versions uses regex to look for any folder that looks like it would be an API group version.
 # eg. foo/v1, bar/v1beta1 or baz/v1alpha1. It then outputs a list of <api>/<version> for those API group versions.
