@@ -5,7 +5,7 @@ all: build
 update: update-codegen-crds
 
 # Ensure update-scripts are run before crd-gen so updates to Godoc are included in CRDs.
-update-codegen-crds: update-scripts
+update-codegen-crds: update-codegen-TechPreviewNoUpgrade-crds update-codegen-Default-crds update-scripts
 	hack/update-codegen-crds.sh
 
 RUNTIME ?= podman
@@ -33,7 +33,7 @@ verify: verify-scripts verify-codegen-crds verify-codegen-TechPreviewNoUpgrade-c
 ################################################################################################
 
 .PHONY: update-scripts
-update-scripts: update-compatibility update-openapi update-deepcopy update-protobuf update-swagger-docs update-codegen-TechPreviewNoUpgrade-crds update-codegen-Default-crds tests-vendor
+update-scripts: update-compatibility update-openapi update-deepcopy update-protobuf update-swagger-docs tests-vendor
 
 .PHONY: update-compatibility
 update-compatibility:
