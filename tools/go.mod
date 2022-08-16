@@ -5,6 +5,7 @@ go 1.18
 require (
 	github.com/spf13/pflag v1.0.5
 	github.com/vmware-archive/yaml-patch v0.0.11
+	golang.org/x/tools v0.1.12
 	k8s.io/apimachinery v0.24.4
 	k8s.io/code-generator v0.24.4
 	k8s.io/klog/v2 v2.70.1
@@ -40,7 +41,6 @@ require (
 	golang.org/x/net v0.0.0-20220722155237-a158d28d115b // indirect
 	golang.org/x/sys v0.0.0-20220722155257-8c9f86f7a55f // indirect
 	golang.org/x/text v0.3.7 // indirect
-	golang.org/x/tools v0.1.12 // indirect
 	google.golang.org/protobuf v1.28.0 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect

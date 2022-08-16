@@ -54,3 +54,4 @@ github.com/openshift/api/user/v1\
 
 CONTROLLER_GEN="go run ${PACKAGE_NAME}/tools/vendor/sigs.k8s.io/controller-tools/cmd/controller-gen"
 YAML_PATCH="go run ${PACKAGE_NAME}/tools/vendor/github.com/vmware-archive/yaml-patch/cmd/yaml-patch"
+TYPE_LINTER="go run ${SCRIPT_ROOT}/tools/cmd/typelinter"
