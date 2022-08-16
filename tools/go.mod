@@ -3,9 +3,11 @@ module github.com/openshift/api/tools
 go 1.18
 
 require (
+	github.com/gogo/protobuf v1.3.2
 	github.com/mikefarah/yq/v4 v4.27.2
 	github.com/spf13/pflag v1.0.5
 	k8s.io/apimachinery v0.24.4
+	k8s.io/code-generator v0.24.4
 	k8s.io/klog/v2 v2.70.1
 )
 
@@ -17,7 +19,7 @@ require (
 	github.com/go-logr/logr v1.2.0 // indirect
 	github.com/goccy/go-json v0.9.10 // indirect
 	github.com/goccy/go-yaml v1.9.5 // indirect
-	github.com/gogo/protobuf v1.3.2 // indirect
+	github.com/google/go-cmp v0.5.6 // indirect
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/jinzhu/copier v0.3.5 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
@@ -27,8 +29,8 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/spf13/cobra v1.5.0 // indirect
-	golang.org/x/net v0.0.0-20220708220712-1185a9018129 // indirect
-	golang.org/x/sys v0.0.0-20220712014510-0a85c31ab51e // indirect
+	golang.org/x/net v0.0.0-20220722155237-a158d28d115b // indirect
+	golang.org/x/sys v0.0.0-20220722155257-8c9f86f7a55f // indirect
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/xerrors v0.0.0-20220609144429-65e65417b02f // indirect
 	gopkg.in/op/go-logging.v1 v1.0.0-20160211212156-b2cb9fa56473 // indirect

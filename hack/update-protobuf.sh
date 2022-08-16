@@ -17,8 +17,8 @@ fi
 rm -rf go-to-protobuf
 rm -rf protoc-gen-gogo
 
-GOFLAGS="" go build -o _output/bin/go-to-protobuf ./vendor/k8s.io/code-generator/cmd/go-to-protobuf
-GOFLAGS="" go build -o _output/bin/protoc-gen-gogo ./vendor/k8s.io/code-generator/cmd/go-to-protobuf/protoc-gen-gogo
+$(cd ${SCRIPT_ROOT}/tools && GOWORK=off GOFLAGS="" go build -mod=vendor -o ../_output/bin/go-to-protobuf ./vendor/k8s.io/code-generator/cmd/go-to-protobuf)
+$(cd ${SCRIPT_ROOT}/tools && GOWORK=off GOFLAGS="" go build -mod=vendor -o ../_output/bin/protoc-gen-gogo ./vendor/k8s.io/code-generator/cmd/go-to-protobuf/protoc-gen-gogo)
 
 PATH="$PATH:_output/bin" go-to-protobuf \
   --output-base="${GOPATH}/src" \
@@ -26,4 +26,5 @@ PATH="$PATH:_output/bin" go-to-protobuf \
   --go-header-file=${SCRIPT_ROOT}/hack/empty.txt \
   --proto-import=${SCRIPT_ROOT}/third_party/protobuf \
   --proto-import=${SCRIPT_ROOT}/vendor \
+  --proto-import=${SCRIPT_ROOT}/tools/vendor \
   --packages="${API_PACKAGES}"
