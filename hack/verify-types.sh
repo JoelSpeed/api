@@ -1,5 +1,7 @@
 #!/bin/sh -eu
 
+source "$(dirname "${BASH_SOURCE}")/lib/init.sh"
+
 builtins='[a-z0-9]+|struct{}'
 pkgs='k8s\.io/api/.*|k8s\.io/apimachinery/.*|github\.com/openshift/api/.*'
 
@@ -16,7 +18,7 @@ pkgs='k8s\.io/api/.*|k8s\.io/apimachinery/.*|github\.com/openshift/api/.*'
 #   * types that are defined in this package (FooSpec, FooStatus, etc.)
 #   * types from k8s.io API packages
 #
-go run ./hack/typelinter \
+${TYPE_LINTER} \
     -whitelist="^(?:\[]|\*|map\[string])*(?:$builtins|(?:$pkgs)\.[A-Za-z0-9]+)\$" \
     -excluded=github.com/openshift/api/build/v1.BuildStatus:Duration \
     -excluded=github.com/openshift/api/image/dockerpre012.Config:ExposedPorts \
