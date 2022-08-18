@@ -3,11 +3,14 @@ module github.com/openshift/api/tools
 go 1.18
 
 require (
+	github.com/dave/dst v0.27.0
+	github.com/google/go-cmp v0.5.6
 	github.com/spf13/pflag v1.0.5
 	github.com/vmware-archive/yaml-patch v0.0.11
 	golang.org/x/tools v0.1.12
 	k8s.io/apimachinery v0.24.4
 	k8s.io/code-generator v0.24.4
+	k8s.io/gengo v0.0.0-20211129171323-c02415ce4185
 	k8s.io/klog/v2 v2.70.1
 	sigs.k8s.io/controller-tools v0.9.2
 )
@@ -47,7 +50,6 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	k8s.io/api v0.24.0 // indirect
 	k8s.io/apiextensions-apiserver v0.24.0 // indirect
-	k8s.io/gengo v0.0.0-20211129171323-c02415ce4185 // indirect
 	k8s.io/kube-openapi v0.0.0-20220803162953-67bda5d908f1 // indirect
 	k8s.io/utils v0.0.0-20220210201930-3a6ce19ff2f9 // indirect
 	sigs.k8s.io/json v0.0.0-20211208200746-9f7c6b3444d2 // indirect

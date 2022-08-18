@@ -5,8 +5,8 @@ import (
 	"os/exec"
 	"path/filepath"
 
-	"github.com/openshift/api/cmd/openshift-compatibility-gen/generate/comment"
-	"github.com/openshift/api/cmd/openshift-compatibility-gen/generate/compatibility"
+	"github.com/openshift/api/tools/cmd/openshift-compatibility-gen/generate/comment"
+	"github.com/openshift/api/tools/cmd/openshift-compatibility-gen/generate/compatibility"
 	"github.com/spf13/pflag"
 	"k8s.io/gengo/args"
 	"k8s.io/klog/v2"

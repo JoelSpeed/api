@@ -8,4 +8,4 @@ source "$(dirname "${BASH_SOURCE}")/lib/init.sh"
 inputArg="$(printf ",${PACKAGE_NAME}/%s" ${API_GROUP_VERSIONS})"
 inputArg="${inputArg:1}"
 
-go run github.com/openshift/api/cmd/openshift-compatibility-gen --input-dirs "$inputArg"
+$(cd ${SCRIPT_ROOT}/tools && ${COMPATIBILITY_GEN} --input-dirs "$inputArg")
