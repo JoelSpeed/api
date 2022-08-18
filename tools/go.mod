@@ -3,12 +3,15 @@ module github.com/openshift/api/tools
 go 1.18
 
 require (
+	github.com/dave/dst v0.27.0
 	github.com/gogo/protobuf v1.3.2
+	github.com/google/go-cmp v0.5.5
 	github.com/mikefarah/yq/v4 v4.27.2
 	github.com/spf13/pflag v1.0.5
 	golang.org/x/tools v0.1.12
 	k8s.io/apimachinery v0.24.4
 	k8s.io/code-generator v0.24.4
+	k8s.io/gengo v0.0.0-20211129171323-c02415ce4185
 	k8s.io/klog/v2 v2.70.1
 )
 
