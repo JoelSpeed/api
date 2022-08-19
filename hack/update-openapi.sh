@@ -2,8 +2,6 @@
 
 source "$(dirname "${BASH_SOURCE}")/lib/init.sh"
 
-CODEGEN_PKG=${CODEGEN_PKG:-$(cd ${SCRIPT_ROOT}; ls -d -1 ./vendor/k8s.io/code-generator 2>/dev/null || echo ../../../k8s.io/code-generator)}
-
 verify="${VERIFY:-}"
 output_package="${OUTPUT_PKG:-github.com/openshift/api/openapi}"
 
@@ -17,16 +15,13 @@ function codegen::join() { local IFS="$1"; shift; echo "$*"; }
 
 echo Generating OpenAPI definitions for ${API_GROUP_VERSIONS} at ${output_package}
 
-go install ./${CODEGEN_PKG}/cmd/openapi-gen
 declare -a OPENAPI_EXTRA_PACKAGES
-${GOPATH}/bin/openapi-gen \
+${OPENAPI_GEN} \
          --input-dirs "$(codegen::join , "${inputArg[@]}" "${OPENAPI_EXTRA_PACKAGES[@]+"${OPENAPI_EXTRA_PACKAGES[@]}"}")" \
          --input-dirs "k8s.io/apimachinery/pkg/apis/meta/v1,k8s.io/apimachinery/pkg/runtime,k8s.io/apimachinery/pkg/version" \
-         --output-package "${output_package}/generated_openapi" \
+         --output-package "${SCRIPT_ROOT}/tools/openapi/generated_openapi" \
          -O zz_generated.openapi \
          --go-header-file ${SCRIPT_ROOT}/hack/empty.txt \
          ${verify}
 
-go build github.com/openshift/api/openapi/cmd/models-schema
-
-./models-schema  | jq '.' > ../../../${output_package}/openapi.json
+${MODELS_SCHEMA} | jq '.' > ../../../${output_package}/openapi.json

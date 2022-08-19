@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/openshift/api/openapi/generated_openapi"
+	"github.com/openshift/api/tools/openapi/generated_openapi"
 	"k8s.io/kube-openapi/pkg/common"
 	"k8s.io/kube-openapi/pkg/validation/spec"
 )
