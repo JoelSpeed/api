@@ -27327,7 +27327,7 @@
       }
     },
     "com.github.openshift.api.route.v1.RouterShard": {
-      "description": "RouterShard has information of a routing shard and is used to generate host names and routing table entries when a routing shard is allocated for a specific route. Caveat: This is WIP and will likely undergo modifications when sharding\n\n\tsupport is added.",
+      "description": "RouterShard has information of a routing shard and is used to generate host names and routing table entries when a routing shard is allocated for a specific route. Caveat: This is WIP and will likely undergo modifications when sharding support is added.",
       "type": "object",
       "required": [
         "shardName",

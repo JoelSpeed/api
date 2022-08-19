@@ -46098,7 +46098,7 @@ func schema_openshift_api_route_v1_RouterShard(ref common.ReferenceCallback) com
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
 			SchemaProps: spec.SchemaProps{
-				Description: "RouterShard has information of a routing shard and is used to generate host names and routing table entries when a routing shard is allocated for a specific route. Caveat: This is WIP and will likely undergo modifications when sharding\n\n\tsupport is added.",
+				Description: "RouterShard has information of a routing shard and is used to generate host names and routing table entries when a routing shard is allocated for a specific route. Caveat: This is WIP and will likely undergo modifications when sharding support is added.",
 				Type:        []string{"object"},
 				Properties: map[string]spec.Schema{
 					"shardName": {
