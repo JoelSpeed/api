@@ -51,5 +51,6 @@ github.com/openshift/api/user/v1\
 YQ="go run ${PACKAGE_NAME}/tools/vendor/github.com/mikefarah/yq/v4"
 TYPE_LINTER="go run ${PACKAGE_NAME}/tools/cmd/typelinter"
 COMPATIBILITY_GEN="go run ${PACKAGE_NAME}/tools/cmd/openshift-compatibility-gen"
+SWAGGER_GEN="go run ${PACKAGE_NAME}/tools/cmd/genswaggertypedocs"
 OPENAPI_GEN="go run ${PACKAGE_NAME}/tools/vendor/k8s.io/code-generator/cmd/openapi-gen"
 MODELS_SCHEMA="go run ${PACKAGE_NAME}/tools/cmd/models-schema"
