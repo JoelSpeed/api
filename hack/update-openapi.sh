@@ -3,7 +3,7 @@
 source "$(dirname "${BASH_SOURCE}")/lib/init.sh"
 
 verify="${VERIFY:-}"
-output_package="${OUTPUT_PKG:-github.com/openshift/api/openapi}"
+output_package="${OUTPUT_PKG:-${SCRIPT_ROOT}/openapi}"
 
 # API_GROUP_VERSIONS is a string of <group>/<version>.
 # The compatibility gen needs a comma separated list of Go packages, so prefix each entry with a comma and the
@@ -24,4 +24,4 @@ ${OPENAPI_GEN} \
          --go-header-file ${SCRIPT_ROOT}/hack/empty.txt \
          ${verify}
 
-${MODELS_SCHEMA} | jq '.' > ../../../${output_package}/openapi.json
+${MODELS_SCHEMA} | jq '.' > ${output_package}/openapi.json
