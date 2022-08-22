@@ -3,7 +3,8 @@
 source "$(dirname "${BASH_SOURCE}")/lib/init.sh"
 
 verify="${VERIFY:-}"
-output_package="${OUTPUT_PKG:-${SCRIPT_ROOT}/openapi}"
+output_path="${OUTPUT_PATH:-openapi}"
+output_package="${SCRIPT_ROOT}/${output_path}"
 
 # API_GROUP_VERSIONS is a string of <group>/<version>.
 # The compatibility gen needs a comma separated list of Go packages, so prefix each entry with a comma and the
