@@ -194,12 +194,12 @@ spec:
                             type: array
                             x-kubernetes-list-type: set
                           state:
+                            default: Enabled
                             description: state defines if a list of catalog types
                               should be enabled or disabled.
                             enum:
                             - Enabled
                             - Disabled
-                            - ""
                             type: string
                         required:
                         - state
