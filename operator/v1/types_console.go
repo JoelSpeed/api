@@ -157,15 +157,15 @@ const (
 )
 
 // DeveloperConsoleCatalogTypesState defines the state of the sub-catalog types.
-// +kubebuilder:validation:XValidation:rule="has(self.state) && self.state == 'Enabled' && has(self.disabled)",message="disabled is forbidden when state is Enabled."
-// +kubebuilder:validation:XValidation:rule="has(self.state) && self.state == 'Disabled' && has(self.enabled)",message="enabled is forbidden when state is Disabled."
+// +kubebuilder:validation:XValidation:rule="self.state == 'Enabled' ?  true : !has(self.enabled)",message="enabled is forbidden when state is not Enabled"
+// +kubebuilder:validation:XValidation:rule="self.state == 'Disabled' ?  true : !has(self.disabled)",message="disabled is forbidden when state is not Enabled"
 // +union
 type DeveloperConsoleCatalogTypesState struct {
 	// state defines if a list of catalog types should be enabled or disabled.
 	// +unionDiscriminator
-	// +kubebuilder:validation:Enum:="Enabled";"Disabled";
+	// +kubebuilder:validation:Enum:="Enabled";"Disabled";""
 	// +kubebuilder:validation:Required
-	State CatalogTypesState `json:"state,omitempty"`
+	State CatalogTypesState `json:"state"`
 	// enabled is a list of developer catalog types (sub-catalogs IDs) that will be shown to users.
 	// Types (sub-catalogs) are added via console plugins, the available types (sub-catalog IDs) are available
 	// in the console on the cluster configuration page, or when editing the YAML in the console.

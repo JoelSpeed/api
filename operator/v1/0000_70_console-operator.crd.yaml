@@ -199,15 +199,16 @@ spec:
                             enum:
                             - Enabled
                             - Disabled
+                            - ""
                             type: string
                         required:
                         - state
                         type: object
                         x-kubernetes-validations:
-                        - message: disabled is forbidden when state is Enabled.
-                          rule: has(self.state) && self.state == 'Enabled' && has(self.disabled)
-                        - message: enabled is forbidden when state is Disabled.
-                          rule: has(self.state) && self.state == 'Disabled' && has(self.enabled)
+                        - message: enabled is forbidden when state is not Enabled
+                          rule: 'self.state == ''Enabled'' ?  true : !has(self.enabled)'
+                        - message: disabled is forbidden when state is not Enabled
+                          rule: 'self.state == ''Disabled'' ?  true : !has(self.disabled)'
                     type: object
                   documentationBaseURL:
                     description: documentationBaseURL links to external documentation
