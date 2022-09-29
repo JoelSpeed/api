@@ -6,12 +6,15 @@ require (
 	github.com/ghodss/yaml v1.0.0
 	github.com/onsi/ginkgo/v2 v2.1.6
 	github.com/onsi/gomega v1.20.2
+	github.com/openshift/api v0.0.0-20220929023536-18c298295790
 	k8s.io/apiextensions-apiserver v0.25.0
 	k8s.io/apimachinery v0.25.0
 	k8s.io/client-go v0.25.0
 	sigs.k8s.io/controller-runtime v0.13.0
 	sigs.k8s.io/controller-runtime/tools/setup-envtest v0.0.0-20220907012636-c83076e9f792
 )
+
+replace github.com/openshift/api => ../
 
 require (
 	github.com/PuerkitoBio/purell v1.1.1 // indirect
