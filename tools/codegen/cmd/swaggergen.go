@@ -8,6 +8,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var (
+	swaggerOutputFileName string
+)
+
 // swaggergenCmd represents the swaggergen command
 var swaggergenCmd = &cobra.Command{
 	Use:   "swaggergen",
@@ -29,9 +33,14 @@ var swaggergenCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(swaggergenCmd)
+
+	rootCmd.PersistentFlags().StringVar(&swaggerOutputFileName, "swagger:output-file-name", swaggergen.DefaultOutputFileName, "Defines the file name to use for the swagger generated docs for each group version.")
 }
 
 // newSchemaPatchGenerator builds a new schemapatch generator.
 func newSwaggerGenGenerator() generation.Generator {
-	return swaggergen.NewGenerator(swaggergen.Options{})
+	return swaggergen.NewGenerator(swaggergen.Options{
+		OutputFileName: swaggerOutputFileName,
+		Verify:         verify,
+	})
 }
