@@ -105,7 +105,7 @@ spec:
                       description: version is a semantic version identifying the update version. version is ignored if image is specified and required if architecture is specified.
                       type: string
                   x-kubernetes-validations:
-                    - rule: 'has(self.architecture) && has(self.image) ? (self.architecture != '''' || self.image != '''') : true'
+                    - rule: 'has(self.architecture) && has(self.image) ? (self.architecture == '''' || self.image == '''') : true'
                       message: cannot set both Architecture and Image
                     - rule: 'has(self.architecture) && self.architecture != '''' ? self.version != '''' : true'
                       message: Version must be set if Architecture is set

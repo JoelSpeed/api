@@ -51,7 +51,7 @@ tests:
       spec:
         clusterID: foo
         desiredUpdate:
-          architecture:
+          architecture: ""
           version: 4.11.1
     expected: |
       apiVersion: config.openshift.io/v1
@@ -59,7 +59,7 @@ tests:
       spec:
         clusterID: foo
         desiredUpdate:
-          architecture:
+          architecture: ""
           version: 4.11.1
   - name: Should allow architecture and version to be set
     initial: |
@@ -87,6 +87,17 @@ tests:
         desiredUpdate:
           architecture: Multi
     expectedError: "Version must be set if Architecture is set"
+  - name: Should not allow image and architecture to be set
+    initial: |
+      apiVersion: config.openshift.io/v1
+      kind: ClusterVersion
+      spec:
+        clusterID: foo
+        desiredUpdate:
+          architecture: Multi
+          version: 4.11.1
+          image: bar
+    expectedError: "cannot set both Architecture and Image"
   onUpdate:
   - name: Should not allow image to be set if architecture set
     initial: |
