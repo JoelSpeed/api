@@ -507,23 +507,34 @@ type GatewayConfig struct {
 	// The supported values are "Restricted" and "Global".
 	// +optional
 	IPForwarding IPForwardingMode `json:"ipForwarding,omitempty"`
-	// V4InternalMasqueradeSubnet contains the v4 masquerade addresses used internally by
-	// ovn-kubernetes to enable host to service traffic. The host is configured with these
+	// v4InternalMasqueradeSubnet contains the v4 masquerade addresses used internally by
+	// ovn-kubernetes to enable host to service traffic. Each host in the cluster is configured with these
 	// addresses, as well as the shared gateway bridge interface. The values can be changed after
 	// installation. The subnet chosen should not overlap with other networks specified for
 	// OVN-Kubernetes as well as other networks used on the host. Additionally the subnet must
 	// be large enough to accommodate 6 IPs (maximum prefix length /29).
-	// The default subnet is 169.254.169.0/29
+	// When omitted, this means no opinion and the platform is left to choose a reasonable default which is subject to change over time.
+	// The current default subnet is 169.254.169.0/29
+	// +kubebuilder:validation:Pattern=`(^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\/([0-9]|[12][0-9])$)`
 	// +optional
+	// + ---
+	// + The regex for the IPV4 CIDR range was taken from other feilds in the Openshift API
+	// + The value must be in IPV4 CIDR format
 	V4InternalMasqueradeSubnet string `json:"v4InternalMasqueradeSubnet,omitempty"`
-	// V6InternalMasqueradeSubnet contains the v6 masquerade addresses used internally by
-	// ovn-kubernetes to enable host to service traffic. The host is configured with these
+	// v6InternalMasqueradeSubnet contains the v6 masquerade addresses used internally by
+	// ovn-kubernetes to enable host to service traffic. Each host in the cluster is configured with these
 	// addresses, as well as the shared gateway bridge interface. The values can be changed after
 	// installation. The subnet chosen should not overlap with other networks specified for
 	// OVN-Kubernetes as well as other networks used on the host. Additionally the subnet must
 	// be large enough to accommodate 6 IPs (maximum prefix length /125).
-	// The default subnet is fd69::/125
+	// When omitted, this means no opinion and the platform is left to choose a reasonable default which is subject to change over time.
+	// The current default subnet is fd69::/125
+	// +kubebuilder:validation:Pattern=`(^s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]d|1dd|[1-9]?d)(.(25[0-5]|2[0-4]d|1dd|[1-9]?d)){3}))|:)))(%.+)?s*(/(12[0-5]|1[0-1][0-9]|[1-9][0-9]|[0-9]))$)`
 	// +optional
+	// + ---
+	// + The regex for the IPV6 CIDR range was taken from
+	// + https://blog.markhatton.co.uk/2011/03/15/regular-expressions-for-ip-addresses-cidr-ranges-and-hostnames/
+	// + The value must be in IPV6 CIDR format
 	V6InternalMasqueradeSubnet string `json:"v6InternalMasqueradeSubnet,omitempty"`
 }
 
