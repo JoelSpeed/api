@@ -77,6 +77,7 @@ func generateProtobufFunctions(path, packagePath, headerFilePath string, verify 
 		Packages:             packagePath,
 		OutputBase:           outputBase,
 		ProtoImport:          []string{vendor},
+		TrimPathPrefix:       filepath.Join(wd, pathPrefix),
 	}
 
 	if verify {
