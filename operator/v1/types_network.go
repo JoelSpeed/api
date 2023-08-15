@@ -515,7 +515,12 @@ type GatewayConfig struct {
 	// be large enough to accommodate 6 IPs (maximum prefix length /29).
 	// When omitted, this means no opinion and the platform is left to choose a reasonable default which is subject to change over time.
 	// The current default subnet is 169.254.169.0/29
-	// +kubebuilder:validation:Pattern=`(^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\/([0-9]|[12][0-9])$)`
+	// +kubebuilder:validation:MaxLength=18
+	// +kubebuilder:validation:XValidation:rule="self.indexOf('/') == self.lastIndexOf('/')",message="CIDR format must contain exactly one '/'"
+	// +kubebuilder:validation:XValidation:rule="[int(self.split('/')[1])].all(x, x <= 29 && x >= 0)",message="subnet must be in the range /0 to /29 inclusive"
+	// +kubebuilder:validation:XValidation:rule="self.split('/')[0].split('.').size() == 4",message="a valid IPv4 address must contain 4 octets"
+	// +kubebuilder:validation:XValidation:rule="[self.findAll('[0-9]+')[0]].all(x, x != '0' && int(x) <= 255 && !x.startsWith('0'))",message="first IP address octet must not contain leading zeros, must be greater than 0 and less or equal to 255"
+	// +kubebuilder:validation:XValidation:rule="[self.findAll('[0-9]+')[1], self.findAll('[0-9]+')[2], self.findAll('[0-9]+')[3]].all(x, int(x) <= 255 && (x == '0' || !x.startsWith('0')))",message="IP address octets must not contain leading zeros, and must be less or equal to 255"
 	// +optional
 	// + ---
 	// + The regex for the IPV4 CIDR range was taken from other feilds in the Openshift API
