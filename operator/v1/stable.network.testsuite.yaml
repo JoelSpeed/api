@@ -104,7 +104,7 @@ tests:
        defaultNetwork:
           ovnKubernetesConfig:
             gatewayConfig:
-              v6InternalMasqueradeSubnet: "abcd:ef01::2345:6789/20"
+              v6InternalMasqueradeSubnet: "abcd:ef01:2345:6789::2345:6789/20"
     expected: | 
       apiVersion: operator.openshift.io/v1
       kind: Network
@@ -112,7 +112,7 @@ tests:
         defaultNetwork:
           ovnKubernetesConfig:
             gatewayConfig:
-              v6InternalMasqueradeSubnet: "abcd:ef01::2345:6789/20"
+              v6InternalMasqueradeSubnet: "abcd:ef01:2345:6789::2345:6789/20"
               routingViaHost: false
         disableNetworkDiagnostics: false
         logLevel: Normal
@@ -127,7 +127,7 @@ tests:
             gatewayConfig:
               v6InternalMasqueradeSubnet: "foo"
     expectedError:  "Invalid value: \"string\": subnet must be in the range /0 to /125 inclusive"
-  - name: Should not be able to add an IP address with the incorrect number of octets to v6InternalMasqueradeSubnet
+  - name: Should not be able to add an IP address with the more than 8 of octets to v6InternalMasqueradeSubnet
     initial: | 
       apiVersion: operator.openshift.io/v1
       kind: Network
@@ -136,8 +136,8 @@ tests:
           ovnKubernetesConfig:
             gatewayConfig:
               v6InternalMasqueradeSubnet: abcd:ef01:2345:6789:abcd:ef01:2345:6789:abcd/125
-    expectedError: "Invalid value: \"string\": a valid IPv6 address must contain at most 8 segments, or at most 6 segments for a dual address"
-  - name: Should not be able to add a dual IP address with the incorrect number of octets to v6InternalMasqueradeSubnet
+    expectedError: "Invalid value: \"string\": a valid IPv6 address must contain 8 segments unless elided (::), in which case it must contain at most 6 non-empty segments"
+  - name: Should not be able to add a dual IP address to v6InternalMasqueradeSubnet
     initial: | 
       apiVersion: operator.openshift.io/v1
       kind: Network
@@ -145,9 +145,9 @@ tests:
         defaultNetwork:
           ovnKubernetesConfig:
             gatewayConfig:
-              v6InternalMasqueradeSubnet: abcd:ef01:2345:6789:abcd:ef01:2345:1.2.3.4/125
-    expectedError: "Invalid value: \"string\": a valid IPv6 address must contain at most 8 segments, or at most 6 segments for a dual address"
-  - name: Should be able to pass a double shorthand IPV6 CIDR to v6InternalMasqueradeSubnet
+              v6InternalMasqueradeSubnet: abcd:ef01:2345:6789:abcd:ef01:1.2.3.4/125
+    expectedError: "Invalid value: \"string\": IPv6 dual addresses are not permitted, value should not contain `.` characters"
+  - name: Should be able to pass a double elided IPV6 CIDR to v6InternalMasqueradeSubnet
     initial: | 
       apiVersion: operator.openshift.io/v1
       kind: Network
@@ -157,3 +157,34 @@ tests:
             gatewayConfig:
               v6InternalMasqueradeSubnet: "abcd::ef01::2345:6789/20"
     expectedError: "Invalid value: \"string\": IPv6 addresses must contain at most one '::' and may only be shortened once"
+  - name: "Should not be able to pass a complete IPV6 CIDR with a :: expander to v6InternalMasqueradeSubnet"
+    initial: | 
+      apiVersion: operator.openshift.io/v1
+      kind: Network
+      spec:
+       defaultNetwork:
+          ovnKubernetesConfig:
+            gatewayConfig:
+              v6InternalMasqueradeSubnet: "abcd:ef01:2345:6789::abcd:ef01:2345:6789/125"
+    expectedError: "Invalid value: \"string\": a valid IPv6 address must contain 8 segments unless elided (::), in which case it must contain at most 6 non-empty segments"
+  - name: Should not be able to pass a IPV6 CIDR without enough segments to v6InternalMasqueradeSubnet"
+    initial: | 
+      apiVersion: operator.openshift.io/v1
+      kind: Network
+      spec:
+       defaultNetwork:
+          ovnKubernetesConfig:
+            gatewayConfig:
+              v6InternalMasqueradeSubnet: "abcd:ef01:2345:6789:abcd:ef01:2345/125"
+    expectedError: "Invalid value: \"string\": a valid IPv6 address must contain 8 segments unless elided (::), in which case it must contain at most 6 non-empty segments"
+  - name: "Should not be able to pass an elided IPV6 CIDR with only a single empty segment to v6InternalMasqueradeSubnet"
+    initial: | 
+      apiVersion: operator.openshift.io/v1
+      kind: Network
+      spec:
+       defaultNetwork:
+          ovnKubernetesConfig:
+            gatewayConfig:
+              v6InternalMasqueradeSubnet: "abcd:ef01:2345:6789:abcd:ef01:2345::/125"
+    expectedError: "Invalid value: \"string\": a valid IPv6 address must contain 8 segments unless elided (::), in which case it must contain at most 6 non-empty segments"
+
