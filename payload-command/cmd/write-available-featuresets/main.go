@@ -8,10 +8,10 @@ import (
 	"github.com/openshift/api/payload-command/render"
 )
 
-// this command injects the initial FeatureGate.status and places some CRDs to be created by the installer during bootstrapping
-// remember that these manifests are not maintained in a running cluster.
+// this command writes manifests for each available featureset so that the cluster-config-operator can read them
+// in order to maintain the list.
 func main() {
-	o := &render.RenderOpts{}
+	o := &render.WriteFeatureSets{}
 	o.AddFlags(flag.CommandLine)
 	flag.Parse()
 

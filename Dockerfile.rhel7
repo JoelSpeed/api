@@ -8,6 +8,7 @@ FROM registry.ci.openshift.org/ocp/4.14:base
 
 # copy the built binaries to /usr/bin
 COPY --from=builder /go/src/github.com/openshift/api/render /usr/bin/
+COPY --from=builder /go/src/github.com/openshift/api/write-available-featuresets /usr/bin/
 
 # this directory is used to produce rendered manifests that the installer applies (but does not maintain) in bootkube
 RUN mkdir -p /usr/share/bootkube/manifests/manifests
