@@ -125,3 +125,12 @@ integration:
 
 tests-vendor:
 	make -C tests vendor
+
+
+# Include the library makefile
+GO_BUILD_PACKAGES =./payload-command/cmd/...
+include $(addprefix ./vendor/github.com/openshift/build-machinery-go/make/, \
+	golang.mk \
+	targets/openshift/deps-gomod.mk \
+	targets/openshift/images.mk \
+)

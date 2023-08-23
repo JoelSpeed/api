@@ -5,16 +5,20 @@ ENV GO_PACKAGE github.com/openshift/api
 RUN make build --warn-undefined-variables
 
 FROM registry.ci.openshift.org/ocp/4.14:base
+
+# copy the built binaries to /usr/bin
+COPY --from=builder /go/src/github.com/openshift/api/render /usr/bin/
+
+# this directory is used to produce rendered manifests that the installer applies (but does not maintain) in bootkube
 RUN mkdir -p /usr/share/bootkube/manifests/manifests
-RUN mkdir -p /usr/share/bootkube/manifests/bootstrap-manifests
-COPY --from=builder /go/src/github.com/openshift/api/config/v1/*_config-operator_*.yaml /usr/share/bootkube/manifests/manifests
-COPY --from=builder /go/src/github.com/openshift/api/quota/v1/*.crd.yaml /usr/share/bootkube/manifests/manifests
-COPY --from=builder /go/src/github.com/openshift/api/security/v1/*.crd.yaml /usr/share/bootkube/manifests/manifests
-COPY --from=builder /go/src/github.com/openshift/api/securityinternal/v1/*.crd.yaml /usr/share/bootkube/manifests/manifests
-COPY --from=builder /go/src/github.com/openshift/api/authorization/v1/*.crd.yaml /usr/share/bootkube/manifests/manifests
-COPY --from=builder /go/src/github.com/openshift/api/operator/v1alpha1/0000_10_config-operator_01_imagecontentsourcepolicy.crd.yaml /usr/share/bootkube/manifests/manifests
-COPY --from=builder /go/src/github.com/openshift/cluster-config-operator/cluster-config-operator /usr/bin/
-COPY manifests /manifests
+COPY config/v1/*_config-operator_*.yaml /usr/share/bootkube/manifests/manifests
+COPY quota/v1/*.crd.yaml /usr/share/bootkube/manifests/manifests
+COPY security/v1/*.crd.yaml /usr/share/bootkube/manifests/manifests
+COPY securityinternal/v1/*.crd.yaml /usr/share/bootkube/manifests/manifests
+COPY authorization/v1/*.crd.yaml /usr/share/bootkube/manifests/manifests
+COPY operator/v1alpha1/0000_10_config-operator_01_imagecontentsourcepolicy.crd.yaml /usr/share/bootkube/manifests/manifests
+
+# these are applied by the CVO
 COPY config/v1/*_config-operator_*.yaml /manifests
 COPY quota/v1/*.crd.yaml /manifests
 COPY security/v1/*.crd.yaml /manifests
