@@ -20,6 +20,7 @@ COPY authorization/v1/*.crd.yaml /usr/share/bootkube/manifests/manifests
 COPY operator/v1alpha1/0000_10_config-operator_01_imagecontentsourcepolicy.crd.yaml /usr/share/bootkube/manifests/manifests
 
 # these are applied by the CVO
+COPY manifests /manifests
 COPY config/v1/*_config-operator_*.yaml /manifests
 COPY quota/v1/*.crd.yaml /manifests
 COPY security/v1/*.crd.yaml /manifests

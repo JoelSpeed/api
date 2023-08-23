@@ -33,6 +33,11 @@ func (o *WriteFeatureSets) Complete() error {
 
 // Run contains the logic of the render command.
 func (o *WriteFeatureSets) Run() error {
+	err := os.MkdirAll(o.AssetOutputDir, 0755)
+	if err != nil {
+		return err
+	}
+
 	for featureSetName := range configv1.FeatureSets {
 		featureGates := &configv1.FeatureGate{
 			ObjectMeta: metav1.ObjectMeta{
@@ -56,6 +61,7 @@ func (o *WriteFeatureSets) Run() error {
 		if len(featureSetName) == 0 {
 			featureSetFileName = fmt.Sprintf("featureGate-%s.yaml", "Default")
 		}
+
 		destFile := filepath.Join(o.AssetOutputDir, featureSetFileName)
 		if err := os.WriteFile(destFile, []byte(featureGateOutBytes), 0644); err != nil {
 			return fmt.Errorf("error writing FeatureGate manifest: %w", err)
