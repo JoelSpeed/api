@@ -72,7 +72,7 @@ func (renderedManifests RenderedManifests) GetObject(gvk schema.GroupVersionKind
 	if err != nil {
 		return nil, err
 	}
-	return manifest.decodedObj, nil
+	return manifest.GetDecodedObj()
 }
 
 func (c *RenderedManifest) GetDecodedObj() (runtime.Object, error) {
