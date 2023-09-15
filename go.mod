@@ -4,7 +4,6 @@ go 1.20
 
 require (
 	github.com/gogo/protobuf v1.3.2
-	github.com/openshift/build-machinery-go v0.0.0-20230824093055-6a18da01283c
 	golang.org/x/tools v0.8.0
 	k8s.io/api v0.28.1
 	k8s.io/apimachinery v0.28.1
