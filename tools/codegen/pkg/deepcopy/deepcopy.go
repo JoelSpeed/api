@@ -1,6 +1,7 @@
 package deepcopy
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -41,6 +42,11 @@ func generateDeepcopyFunctions(path, packagePath, outputBaseFileName, headerFile
 		BoundingDirs: []string{inputPath},
 		GoHeaderFile: headerFilePath,
 		OutputFile:   outputBaseFileName,
+	}
+
+	// Temporary to prevent me merging this
+	if verify {
+		return errors.New("verify is not supported")
 	}
 
 	klog.V(2).Infof("Generating deepcopy into %s", filepath.Join(wd, strings.TrimPrefix(packagePath, pathPrefix)))
