@@ -1,0 +1,243 @@
+name: Feature Promotion Readiness Report
+description: Fill out the required details to promote a feature gate to the Default FeatureSet.
+title: "[FeaturePromotion]: "
+labels: []
+projects: []
+assignees: []
+body:
+
+# Metadata
+- type: markdown
+  attributes:
+    value: |
+      ## Metadata
+- type: input
+  id: feature_gate
+  attributes:
+    label: Feature Gate
+    description: The feature gate name to be promoted.
+  validations:
+    required: true
+- type: input
+  id: promotion_pr_link
+  attributes:
+    label: Promotion PR Link
+    description: Link to the PR promoting this feature gate to the Default feature set.
+    placeholder: https://github.com/openshift/api/pull/XXXX
+  validations:
+    required: true
+- type: input
+  id: feature_jira_link
+  attributes:
+    label: Jira Link
+    description: |
+      This should be either the OCPSTRAT (where the entire strat is covered by this feature gate),
+      or a link to an epic that encapsulates the feature implemented by this feature gate.
+    placeholder: https://issues.redhat.com/browse/OCPXXXX-XXXXX
+  validations:
+    required: true
+- type: input
+  id: sippy_feature_link
+  attributes:
+    label: Sippy Link
+    description: |
+      This should be the link to Sippy, showing the pass rate of tests, gated by this feature gate.
+      Go to https://sippy.dptools.openshift.org/sippy-ng/feature_gates/<release> (eg 4.19) and click
+      on your feature gate name. Copy and paste the resulting URL here.
+      If your gate cannot be tested in this way, link to sippy results for a periodic job demonstrating
+      your feature.
+  validations:
+    required: true
+- type: input
+  id: team_lead_gh_id
+  attributes:
+    label: Team Lead
+    description: The GitHub handle of the responsible Team Lead.
+    placeholder: "@TL"
+  validations:
+    required: true
+- type: input
+  id: product_manager_gh_id
+  attributes:
+    label: Product Manager
+    description: The GitHub handle of the responsible Product Manager.
+    placeholder: "@PM"
+  validations:
+    required: true
+- type: input
+  id: qe_contact_gh_id
+  attributes:
+    label: QE Contact
+    description: The GitHub handle of the responsible QE contact.
+    placeholder: "@QE"
+  validations:
+    required: true
+
+# Feature State
+- type: markdown
+  attributes:
+    value: |
+      ## Feature State
+- type: dropdown
+  id: feature_complete
+  attributes:
+    label: Feature Complete
+    description: Is the feature dev complete?
+    options:
+    - Yes
+    - No
+  validations:
+    required: true
+- type: textarea
+  id: feature_remaining_work
+  attributes:
+    label: Oustanding Work
+    description: |
+      Please explain the oustanding work for the feature.
+      Only answer this if you answer No to the previous question.
+    placeholder: |
+      OCPMYFEATURE-123 is not yet complete, but does not affect end user functionality.
+      OCPMYFEATYRE-456 is an extension of this feature, but the main feature can be used independently, and future work is behind a separate gate.
+- type: textarea
+  id: feature_dependencies
+  attributes:
+    label: Feature Dependencies
+    description: |
+      Does this feature depend on any other feature, or do any other features depend on this feature?
+      Please explain dependencies between features below.
+      If there are no dependencies, answer "None".
+    placeholder: |
+      MyFeatureGate depends on MyOldFeatureGate, and so MyOldFeatureGate must be promoted first.
+      MyFeatureGate interacts with SomeoneElsesFeatureGate, but the functionality is only enabled when both gates are enabled.
+  validations:
+    required: true
+- type: dropdown
+  id: feature_promotion_atomic
+  attributes:
+    label: Is the linked PR sufficient to promote the feature?
+    description: |
+      If the promotion PR is the only PR required to promote the feature, select Yes.
+      If other PRs are required (e.g. revendoring the API), select No and provide details in the next question.
+    options:
+    - Yes
+    - No
+  validations:
+    required: true
+- type: textarea
+  id: feature_other_prs
+  attributes:
+    label: Other PRs required for promotion
+    description: |
+      List here any other PRs required to enable the feature in addition to the promotion PR.
+      This field should only be filled out if the previous answer was No.
+- type: textarea
+  id: feature_merge_ordering
+  attributes:
+    label: Merge Order Dependencies
+    description: |
+      In some cases, merging only some PRs, or PRs in the wrong order, could result in broken payloads.
+      Please explain any merge ordering requirements.
+      Only required when the previous question has a non-empty answer.
+    placeholder: |
+      PR-123 must be merged first, then revendored into PR-456.
+      Merging the PRs over time would break the payload, they must be green button merged into a single CI payload.
+
+# QE Review
+- type: markdown
+  attributes:
+    value: |
+      ## QE Review
+- type: dropdown
+  id: qe_complete
+  attributes:
+    label: QE Complete
+    description: |
+      Have QE completed all of their testing for the feature?
+      Are the QE team happy that the feature is ready for promotion?
+    options:
+    - Yes
+    - No
+  validations:
+    required: true    
+- type: textarea
+  id: qe_links
+  attributes:
+    label: QE Testing Links
+    description: |
+      Please provide links to the relevant QE testing cards, detailing QE testing of this feature.
+  validations:
+    required: true
+- type: textarea
+  id: qe_outstanding_bugs
+  attributes:
+    label: Outstanding Bugs
+    description: |
+      Please list any known issues with the feature, linking to the relevant OCPBUGS card where applicable.
+      If there are no known issues identified by Dev, QE or TRT, please answer None.
+  validations:
+    required: true
+- type: textarea
+  id: qe_outstanding_blocker_bugs
+  attributes:
+    label: Oustanding Blocker Bugs
+    description: |
+      If the previous answer was not empty, why are the listed bugs not blockers for promoting this feature?
+    placeholder: |
+      OCPBUGS-123 is not a blocker because it is cosmetic and does not affect the functionality of the feature.
+      OCPBUGS-456 only appears when used in combination with FeatureX, which is not yet promoted.
+
+# API Review
+- type: markdown
+  attributes:
+    value: |
+      ## API Review
+- type: dropdown
+  id: api_changes
+  attributes:
+    label: API Changes
+    description: |
+      Does the feature promotion PR include any API changes?
+      This means changes to the Go API types, and excludes updates to generated files.
+      For example, moving an API from v1alpha1 to v1 would require an answer of Yes.
+      A CRD manifest being updated just because the feature gate was added to the Default FeatureSet, would answer No.
+    options:
+    - Yes
+    - No
+  validations:
+    required: true
+- type: dropdown
+  id: api_outstanding_todos
+  attributes:
+    label: Outstanding TODOs
+    description: |
+      Please check for any TODO comments in the API for this feature.
+      If there are any outstanding TODOs from prior API review, please answer Yes.
+    options:
+    - Yes
+    - No
+  validations:
+    required: true
+- type: dropdown
+  id: api_promotion_into_payload
+  attributes:
+    label: Direct Payload Promotion
+    description: |
+      If the APi for this feature is promoted to the payload directly from openshift/api, answer Yes.
+      Otherwise, if it is promoted from another repository, answer No.
+    options:
+    - Yes
+    - No
+  validations:
+    required: true
+- type: textarea
+  id: api_promotion_pr
+  attributes:
+    label: API Payload PR
+    description:
+      If you answer No to the previous question, please link to the PR(s) that will promote your API into the release payload.
+
+# Automated Testing
+- type: markdown
+  attributes:
+    value: |
+      ## Automated Testing
