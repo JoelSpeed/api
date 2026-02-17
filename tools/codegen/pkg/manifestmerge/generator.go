@@ -511,6 +511,18 @@ func getCRDsToRender(resultingCRDs []crdForFeatureSet, crdFilenamePattern, outpu
 		allFeatureSetsSame := crd.featureSet.Equal(allKnownFeatureSets)
 		allClusterProfilesSame := crd.clusterProfile.Equal(allKnownClusterProfies)
 
+		// The feature gate annotation can only ever exist with one value in the generated partial manifests.
+		// It's added as an annotation at the top level of the CRD and is generally only used when the CRD
+		// is brand new and being introduced behind a specific gate.
+		isFeatureGated := crd.crd.GetAnnotations()["release.openshift.io/feature-gate"] != ""
+		if isFeatureGated {
+			// If the feature is on by default, all feature sets are the same, so we will generate based on whether cluster profiles differ.
+			// If the feature is not on by default, we would normally only generate based on the feature sets that the feature is enabled in.
+			// Instead, force generation as if all the feature sets are the same to generate a manifest that deploys solely based on the
+			// feature gate status. CVO will then correctly apply the CRD without the need for feature setting.
+			allFeatureSetsSame = true
+		}
+
 		switch {
 		case allFeatureSetsSame && allClusterProfilesSame:
 			crdFilename := getCRDFilename(crdFilenamePattern, nameComponents)
@@ -554,6 +566,8 @@ func getCRDsToRender(resultingCRDs []crdForFeatureSet, crdFilenamePattern, outpu
 					outputFile:     crdFullPath,
 				})
 			}
+		case isFeatureGated:
+			//
 		default:
 			for _, clusterProfile := range crd.clusterProfile.UnsortedList() {
 				clusterProfileShortName, err := utils.ClusterProfileToShortName(clusterProfile)
