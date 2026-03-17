@@ -108,6 +108,11 @@ linters:
         text: "optionalfields|conditions: Conditions field"
       - linters:
         - kubeapilinter
+        # These types are go validated and served by openshift-apiserver. This regex must always be updated in tandem with the regex in .golangci.go-validated.yaml that prevents `optionalfields` and `conditions` from being applied to the files in the path.
+        path: apps/v1|authorization/v1|build/v1|cloudnetwork/v1|image/v1|network/v1|networkoperator/v1|oauth/v1|project/v1|quota/v1|route/v1|samples/v1|security/v1|template/v1|user/v1
+        text: "optionalfields|conditions: Conditions field"
+      - linters:
+        - kubeapilinter
         # Silence norefs lint for `Ref` field in ClusterAPI as it refers to an OCI image reference, not a kube object reference.
         path: operator/v1alpha1/types_clusterapi.go
         text: "noreferences: naming convention \"no-references\": field ClusterAPIInstallerComponentImage.Ref: field names should not contain reference-related words"

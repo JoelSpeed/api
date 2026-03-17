@@ -50,6 +50,10 @@ linters:
       - kubeapilinter
       # This regex must always be updated in tandem with the regex in .golangci.yaml that prevents `optionalfields` from being applied to the files in the path-except.
       path-except: machine/v1beta1/(types_awsprovider.go|types_azureprovider.go|types_gcpprovider.go|types_vsphereprovider.go)|machine/v1alpha1/types_openstack.go
+    - lints:
+      - kubeapilinter
+      # These types are go validated and served by openshift-apiserver. This regex must always be updated in tandem with the regex in .golangci.yaml that prevents `optionalfields` and `conditions` from being applied to the files in the path-except.
+      path-except: apps/v1|authorization/v1|build/v1|cloudnetwork/v1|image/v1|network/v1|networkoperator/v1|oauth/v1|project/v1|quota/v1|route/v1|samples/v1|security/v1|template/v1|user/v1
     - linters:
       - kubeapilinter
       path: machine/v1beta1/(types_awsprovider.go|types_azureprovider.go|types_gcpprovider.go|types_vsphereprovider.go)|machine/v1alpha1/types_openstack.go
