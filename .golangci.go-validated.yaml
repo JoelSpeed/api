@@ -13,9 +13,14 @@ linters:
             enable:
             - optionalfields
             - nonpointerstructs
+            - conditions
             disable:
             - "*"
           lintersConfig:
+            conditions:
+              isFirstField: Warn
+              usePatchStrategy: SuggestFix
+              useProtobuf: SuggestFix
             optionalfields:
               pointers:
                 preference: Always
@@ -45,6 +50,11 @@ linters:
       - kubeapilinter
       # This regex must always be updated in tandem with the regex in .golangci.yaml that prevents `optionalfields` from being applied to the files in the path-except.
       path-except: machine/v1beta1/(types_awsprovider.go|types_azureprovider.go|types_gcpprovider.go|types_vsphereprovider.go)|machine/v1alpha1/types_openstack.go
+    - linters:
+      - kubeapilinter
+      path: machine/v1beta1/(types_awsprovider.go|types_azureprovider.go|types_gcpprovider.go|types_vsphereprovider.go)|machine/v1alpha1/types_openstack.go
+      # These types are go validated, but don't need patch strategy or protobuf tags as they are embedded types.
+      text: "missing the following markers: patchStrategy=merge, patchMergeKey=type|Conditions field .* has incorrect tags"
 issues:
   # We have a lot of existing issues.
   # Want to make sure that those adding new fields have an

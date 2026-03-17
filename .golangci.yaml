@@ -25,8 +25,8 @@ linters:
           lintersConfig:
             conditions:
               isFirstField: Warn
-              usePatchStrategy: Ignore
-              useProtobuf: Ignore
+              usePatchStrategy: Forbid # CRDs do not support patch strategy tags.
+              useProtobuf: Forbid # CRDs do not support protobuf tags.
             forbiddenmarkers:
               markers:
               - identifier: "openshift:enable:FeatureSets"
@@ -103,9 +103,9 @@ linters:
     rules:
       - linters:
         - kubeapilinter
-        # This regex must always be updated in tandem with the regex in .golangci.go-validated.yaml that prevents `optionalfields` from being applied to the files in the path.
+        # This regex must always be updated in tandem with the regex in .golangci.go-validated.yaml that prevents `optionalfields` and `conditions` from being applied to the files in the path.
         path: machine/v1beta1/(types_awsprovider.go|types_azureprovider.go|types_gcpprovider.go|types_vsphereprovider.go)|machine/v1alpha1/types_openstack.go
-        text: "optionalfields"
+        text: "optionalfields|conditions: Conditions field"
       - linters:
         - kubeapilinter
         # Silence norefs lint for `Ref` field in ClusterAPI as it refers to an OCI image reference, not a kube object reference.
