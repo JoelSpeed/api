@@ -250,7 +250,7 @@ type OIDCProvider struct {
 // +kubebuilder:validation:MinLength=1
 type TokenAudience string
 
-// +openshift:validation:FeatureGateAwareXValidation:featureGate=ExternalOIDCWithUpstreamParity,rule="self.?discoveryURL.orValue(\"\").size() > 0 ? (self.issuerURL.size() == 0 || self.discoveryURL.find('^.+[^/]') != self.issuerURL.find('^.+[^/]')) : true",message="discoveryURL must be different from issuerURL"
+// +openshift:validation:FeatureGateAwareXValidation:featureGate=ExternalOIDCWithUpstreamParity,rule="has(self.discoveryURL) ? (self.issuerURL.size() == 0 || self.discoveryURL.find('^.+[^/]') != self.issuerURL.find('^.+[^/]')) : true",message="discoveryURL must be different from issuerURL"
 type TokenIssuer struct {
 	// issuerURL is a required field that configures the URL used to issue tokens by the identity provider.
 	// The Kubernetes API server determines how authentication tokens should be handled by matching the 'iss' claim in the JWT to the issuerURL of configured identity providers.
@@ -353,7 +353,7 @@ type TokenClaimMappings struct {
 // +openshift:validation:FeatureGateAwareXValidation:featureGate="",rule="has(self.claim)",message="claim is required"
 // +openshift:validation:FeatureGateAwareXValidation:featureGate=ExternalOIDC,rule="has(self.claim)",message="claim is required"
 // +openshift:validation:FeatureGateAwareXValidation:featureGate=ExternalOIDCWithUIDAndExtraClaimMappings,rule="has(self.claim)",message="claim is required"
-// +openshift:validation:FeatureGateAwareXValidation:featureGate=ExternalOIDCWithUpstreamParity,rule="(size(self.?claim.orValue(\"\")) > 0) ? !has(self.expression) : true",message="expression must not be set if claim is specified and is not an empty string"
+// +openshift:validation:FeatureGateAwareXValidation:featureGate=ExternalOIDCWithUpstreamParity,rule="has(self.claim) && size(self.claim) > 0 ? !has(self.expression) : true",message="expression must not be set if claim is specified and is not an empty string"
 type TokenClaimMapping struct {
 	// claim is an optional field for specifying the JWT token claim that is used in the mapping.
 	// The value of this claim will be assigned to the field in which this mapping is associated.

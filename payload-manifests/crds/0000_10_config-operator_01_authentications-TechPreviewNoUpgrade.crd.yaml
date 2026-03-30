@@ -226,7 +226,7 @@ spec:
                               true'
                           - message: expression must not be set if claim is specified
                               and is not an empty string
-                            rule: '(size(self.?claim.orValue("")) > 0) ? !has(self.expression)
+                            rule: 'has(self.claim) && size(self.claim) > 0 ? !has(self.expression)
                               : true'
                         uid:
                           description: |-
@@ -530,8 +530,8 @@ spec:
                       type: object
                       x-kubernetes-validations:
                       - message: discoveryURL must be different from issuerURL
-                        rule: 'self.?discoveryURL.orValue("").size() > 0 ? (self.issuerURL.size()
-                          == 0 || self.discoveryURL.find(''^.+[^/]'') != self.issuerURL.find(''^.+[^/]''))
+                        rule: 'has(self.discoveryURL) ? (self.issuerURL.size() ==
+                          0 || self.discoveryURL.find(''^.+[^/]'') != self.issuerURL.find(''^.+[^/]''))
                           : true'
                     name:
                       description: |-
