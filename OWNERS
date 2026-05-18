@@ -1,7 +1,23 @@
+# Default reviewers and approvers for API changes
 reviewers:
-  - JoelSpeed
-  - everettraven
+  - api-reviewers
 approvers:
-  - deads2k
-  - JoelSpeed
-  - everettraven
+  - api-approvers
+
+# File-specific ownership patterns
+filters:
+  # Dependency files at any level - require different approval
+  "(^|.*/)go\\.(mod|sum)$":
+    reviewers:
+      - sustaining-reviewers
+    approvers:
+      - sustaining-approvers
+      - api-approvers
+
+  # Vendor directory changes at any level
+  "(^|.*/)vendor/.*":
+    reviewers:
+      - sustaining-reviewers
+    approvers:
+      - sustaining-approvers
+      - api-approvers

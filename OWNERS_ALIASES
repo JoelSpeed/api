@@ -1,0 +1,22 @@
+# OWNERS_ALIASES for openshift/api
+# See the OWNERS docs: https://git.k8s.io/community/contributors/guide/owners.md
+
+aliases:
+  # Default API maintainers
+  api-approvers:
+    - deads2k
+    - JoelSpeed
+    - everettraven
+
+  api-reviewers:
+    - JoelSpeed
+    - everettraven
+    - yuqi-zhang
+    - saschagrunert
+
+  # Allow sustaining engineering to approve dependency changes
+  sustaining-approvers:
+    - TBD
+
+  sustaining-reviewers:
+    - TBD
